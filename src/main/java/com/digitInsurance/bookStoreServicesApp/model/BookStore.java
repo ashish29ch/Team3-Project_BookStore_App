@@ -1,5 +1,6 @@
 package com.digitInsurance.bookStoreServicesApp.model;
 
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.BookStoreDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,4 +19,11 @@ public class BookStore {
     private String description;
     private String price;
     private Long stock;
+
+    public BookStore(BookStoreDTO bookStoreDTO) {
+        this.name = bookStoreDTO.getName();
+        this.description = bookStoreDTO.getDescription();
+        this.price = bookStoreDTO.getPrice();
+        this.stock = bookStoreDTO.getStock();
+    }
 }
