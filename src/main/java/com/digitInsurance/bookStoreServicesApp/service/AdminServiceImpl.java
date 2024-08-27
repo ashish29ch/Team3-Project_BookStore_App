@@ -74,5 +74,6 @@ public class AdminServiceImpl implements AdminService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
-    
+gut status
+
 }
