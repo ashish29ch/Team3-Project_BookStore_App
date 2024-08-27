@@ -1,9 +1,9 @@
-package com.digitInsurance.bookStoreServicesApp.service;
+package com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
-import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
-import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
 import org.springframework.http.ResponseEntity;
 
 

@@ -1,12 +1,13 @@
-package com.digitInsurance.bookStoreServicesApp.service;
+package com.digitInsurance.bookStoreServicesApp.service.serviceImpl;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
-import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
-import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
 import com.digitInsurance.bookStoreServicesApp.model.Users;
 import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
+import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.AdminService;
 import com.digitInsurance.bookStoreServicesApp.util.JWTToken;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
