@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.TokenNotValidException;
 
 import java.util.Date;
 import java.util.UUID;
@@ -32,13 +33,18 @@ public class JWTToken {
 
     }
 
-    public String getRoleFromToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-        JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer(ISSUER)
-                .build();
+    public static String getRoleFromToken(String token) throws TokenNotValidException {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .build();
 
-        DecodedJWT decodedJWT = verifier.verify(token.replace("Bearer ", ""));
-        return decodedJWT.getClaim("role").asString();
+            DecodedJWT decodedJWT = verifier.verify(token.replace("Bearer ", ""));
+            return decodedJWT.getClaim("role").asString();
+        }
+        catch (RuntimeException e){
+            throw new TokenNotValidException("your fucked up with your token");
+        }
     }
 }
