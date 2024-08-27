@@ -1,13 +1,12 @@
 package com.digitInsurance.bookStoreServicesApp.dto.requestdto;
 
+
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class RequestDTO {
-
-    private String username;
+public class LoginDTO {
+    private String userName;
     private String password;
-    private String email;
 }
