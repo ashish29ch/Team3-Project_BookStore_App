@@ -7,6 +7,7 @@ import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistExc
 import com.digitInsurance.bookStoreServicesApp.service.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,8 +30,5 @@ public class AdminController {
         return ResponseEntity.ok("Admin registered successfully");
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginAdmin(@Valid @RequestBody LoginDTO loginDTO) {
-        return null;
-    }
+    
 }
