@@ -32,5 +32,13 @@ public class JWTToken {
 
     }
 
+    public String getRoleFromToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+        JWTVerifier verifier = JWT.require(algorithm)
+                .withIssuer(ISSUER)
+                .build();
 
+        DecodedJWT decodedJWT = verifier.verify(token.replace("Bearer ", ""));
+        return decodedJWT.getClaim("role").asString();
+    }
 }
