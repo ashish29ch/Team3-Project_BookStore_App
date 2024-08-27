@@ -1,14 +1,20 @@
 package com.digitInsurance.bookStoreServicesApp.service;
 
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
 import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
 import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
 import com.digitInsurance.bookStoreServicesApp.model.Users;
 import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
+import com.digitInsurance.bookStoreServicesApp.util.JWTToken;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.util.Optional;
@@ -17,8 +23,7 @@ import java.util.Optional;
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private UserRepository userRepository;
-
+    public UserRepository userRepository;
 
     public void registerAdmin(RequestDTO requestDTO) throws RoleNotValid, UsernameAlreadyExistException {
 
@@ -45,10 +50,5 @@ public class AdminServiceImpl implements AdminService {
         }
 
     }
-
-    @Override
-    public Users loginAdmin(String userName, String password) {
-        return null;
-
-    }
+    
 }
