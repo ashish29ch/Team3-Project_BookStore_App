@@ -50,5 +50,29 @@ public class AdminServiceImpl implements AdminService {
         }
 
     }
+
+    public ResponseEntity<String> loginAdmin(@RequestBody @Valid LoginDTO loginDTO) {
+        try {
+            Optional<Users> userFound = userRepository.findByUsername(loginDTO.getUsername());
+
+            if (userFound.isEmpty()) {
+                return new ResponseEntity<>("Admin With Username Not Found", HttpStatus.NOT_FOUND);
+            }
+
+            String userPassword = userFound.get().getPassword();
+            boolean checkPassword = BCrypt.checkpw(loginDTO.getPassword(), userPassword);
+            String token = null;
+            if(checkPassword){
+                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()));
+            }
+            else {
+                return new ResponseEntity<>("Invalid Password", HttpStatus.UNAUTHORIZED);
+            }
+
+            return new ResponseEntity<>(token,HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
     
 }
