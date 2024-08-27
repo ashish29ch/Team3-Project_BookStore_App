@@ -1,59 +1,54 @@
 package com.digitInsurance.bookStoreServicesApp.service;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
-import com.digitInsurance.bookStoreServicesApp.model.Admin;
-import com.digitInsurance.bookStoreServicesApp.model.Role;
+import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
 import com.digitInsurance.bookStoreServicesApp.model.Users;
-import com.digitInsurance.bookStoreServicesApp.repo.AdminRepository;
-import com.digitInsurance.bookStoreServicesApp.repo.RoleRepository;
+import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.mindrot.jbcrypt.BCrypt;
+
+
+import java.util.Optional;
 
 @Service
 public class AdminServiceImpl implements AdminService {
-    @Autowired
-    private AdminRepository adminRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private UserRepository userRepository;
 
-    @Autowired
-    private RequestDTO requestDTO;
 
-    @Autowired
-    //private PasswordEncoder passwordEncoder;
+    public void registerAdmin(RequestDTO requestDTO) throws RoleNotValid, UsernameAlreadyExistException {
 
-    public void registerAdmin(RequestDTO requestDTO) {
-        // Check if the admin already exists
-//        if (adminRepository.findByUsername(requestDTO.getUsername()).isPresent()) {
-//            throw new CustomException("Admin already exists");
-//        }
+        Optional<Users> isAdmin = userRepository.findByEmail(requestDTO.getEmail());
 
-        // Validate the password
-//        if (!isValidPassword(requestDTO.getPassword())) {
-//            throw new CustomException("Invalid password");
-//        }
+        if(isAdmin.isEmpty()){
 
-        // Create a new Admin entity
-        Admin admin = new Admin();
-        admin.setUsername(requestDTO.getUsername());
-        //admin.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
-        admin.setEmail(requestDTO.getEmail());
+            String hashPassword = BCrypt.hashpw(requestDTO.getPassword(), BCrypt.gensalt());
+            requestDTO.setPassword(hashPassword);
 
-        // Fetch the ROLE_ADMIN from the roles table
-        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN);
+            if(requestDTO.getRole().equalsIgnoreCase("admin")){
+                requestDTO.setRole(String.valueOf(RoleName.ROLE_ADMIN));
+            }
+            else {
+                throw new RoleNotValid("Role Not Valid");
+            }
 
-        // Assign the ROLE_ADMIN to the new admin
-        admin.getRoles().add(adminRole);
+            Users user = new Users(requestDTO);
 
-        // Save the new admin to the database
-        adminRepository.save(admin);
+            userRepository.save(user);
+        }
+        else {
+            throw new UsernameAlreadyExistException("Username Already Registered ");
+        }
 
     }
 
     @Override
     public Users loginAdmin(String userName, String password) {
         return null;
+
     }
 }

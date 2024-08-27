@@ -2,7 +2,8 @@ package com.digitInsurance.bookStoreServicesApp.controller;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
-import com.digitInsurance.bookStoreServicesApp.model.Admin;
+import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.service.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,13 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerAdmin(@Valid @RequestBody RequestDTO requestDTO) {
+    public ResponseEntity<?> registerAdmin(@Valid @RequestBody RequestDTO requestDTO) throws RoleNotValid, UsernameAlreadyExistException {
         adminService.registerAdmin(requestDTO);
         return ResponseEntity.ok("Admin registered successfully");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginAdmin(@Valid @RequestBody LoginDTO loginDTO) {
-        Admin admin = (Admin) adminService.loginAdmin(loginDTO.getUserName(), loginDTO.getPassword());
-        return ResponseEntity.ok(admin);
+        return null;
     }
 }

@@ -1,17 +1,14 @@
 package com.digitInsurance.bookStoreServicesApp.model;
 
 
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "Users")
 @Entity
 public class Users {
@@ -23,9 +20,14 @@ public class Users {
     private String password;
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private RoleName role;
+
+    public Users(RequestDTO requestDTO){
+
+        this.username = requestDTO.getUsername();
+        this.email = requestDTO.getEmail();
+        this.password = requestDTO.getPassword();
+        this.role = RoleName.valueOf(requestDTO.getRole());
+    }
 }
