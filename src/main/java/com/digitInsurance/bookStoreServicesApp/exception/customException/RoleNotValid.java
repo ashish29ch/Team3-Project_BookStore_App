@@ -1,4 +1,4 @@
-package com.digitInsurance.bookStoreServicesApp.exception;
+package com.digitInsurance.bookStoreServicesApp.exception.customException;
 
 public class RoleNotValid extends Exception {
 
