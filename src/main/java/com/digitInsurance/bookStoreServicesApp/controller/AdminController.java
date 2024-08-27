@@ -2,9 +2,9 @@ package com.digitInsurance.bookStoreServicesApp.controller;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
-import com.digitInsurance.bookStoreServicesApp.exception.RoleNotValid;
-import com.digitInsurance.bookStoreServicesApp.exception.UsernameAlreadyExistException;
-import com.digitInsurance.bookStoreServicesApp.service.AdminService;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
+import com.digitInsurance.bookStoreServicesApp.serviceInterfaces.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
