@@ -3,7 +3,7 @@ package com.digitInsurance.bookStoreServicesApp.controller;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.BookStoreDTO;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.TokenNotValidException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
-import com.digitInsurance.bookStoreServicesApp.serviceInterfaces.BookStoreService;
+import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.BookStoreService;
 import com.digitInsurance.bookStoreServicesApp.util.JWTToken;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
