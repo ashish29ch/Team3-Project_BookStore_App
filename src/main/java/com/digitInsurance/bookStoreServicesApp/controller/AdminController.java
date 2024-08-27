@@ -30,5 +30,13 @@ public class AdminController {
         return ResponseEntity.ok("Admin registered successfully");
     }
 
-    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid LoginDTO loginDTO) {
+        try {
+            ResponseEntity<String> token = adminService.loginAdmin(loginDTO);
+            return token;
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
 }
