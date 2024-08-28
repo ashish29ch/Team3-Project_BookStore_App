@@ -25,7 +25,7 @@ public class Users {
 
     @Enumerated(EnumType.STRING)
     @JsonIgnore
-    
+
     private RoleName role;
 
     public Users(RequestDTO requestDTO){
