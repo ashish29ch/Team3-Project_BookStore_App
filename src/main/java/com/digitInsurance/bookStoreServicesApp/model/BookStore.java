@@ -19,11 +19,16 @@ public class BookStore {
     private String description;
     private String price;
     private Long stock;
+    private String author;
+    private String image;
 
     public BookStore(BookStoreDTO bookStoreDTO) {
         this.name = bookStoreDTO.getName();
         this.description = bookStoreDTO.getDescription();
         this.price = bookStoreDTO.getPrice();
         this.stock = bookStoreDTO.getStock();
+        this.image = bookStoreDTO.getImage();
+        this.author = bookStoreDTO.getAuthor();
+
     }
 }
