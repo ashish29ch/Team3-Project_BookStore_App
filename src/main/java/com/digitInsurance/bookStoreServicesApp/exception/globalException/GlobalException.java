@@ -44,7 +44,7 @@ public class GlobalException {
     }
 
     @ExceptionHandler(InsufficientStockException.class)
-    public ResponseEntity<?> handleInsufficientStock(InsufficientStockException e) {
+    public ResponseEntity<?> handleIn(InsufficientStockException e) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
     }
 }
