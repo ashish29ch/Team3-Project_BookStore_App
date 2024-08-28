@@ -1,4 +1,4 @@
-package com.digitInsurance.bookStoreServicesApp.dto.requestdto;
+package com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO;
 
 
 import lombok.Data;

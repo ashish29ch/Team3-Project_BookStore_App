@@ -1,7 +1,7 @@
 package com.digitInsurance.bookStoreServicesApp.service.serviceImpl;
 
-import com.digitInsurance.bookStoreServicesApp.dto.requestdto.LoginDTO;
-import com.digitInsurance.bookStoreServicesApp.dto.requestdto.RequestDTO;
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO.LoginDTO;
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO.RequestDTO;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.RoleNotValid;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
