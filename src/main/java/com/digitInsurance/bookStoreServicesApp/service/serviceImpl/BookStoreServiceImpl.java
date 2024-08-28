@@ -11,9 +11,11 @@ import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.BookSto
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -78,5 +80,15 @@ public class BookStoreServiceImpl implements BookStoreService {
             throw new BookNotFound("Book does not exist");
         }
     }
+
+    @Override
+    public Optional<List<BookStore>> getAllBooksList() {
+        return Optional.of(bookStoreRepository.findAll());
     }
+
+    @Override
+    public Optional<BookStore> getBookById(Long id) {
+        return bookStoreRepository.findById(id);
+    }
+}
 
