@@ -44,7 +44,7 @@ public class JWTToken {
             return decodedJWT.getClaim("role").asString();
         }
         catch (RuntimeException e){
-            throw new TokenNotValidException("your fucked up with your token");
+            throw new TokenNotValidException("Ohh! Your token is wrong");
         }
     }
 }
