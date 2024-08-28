@@ -2,6 +2,8 @@ package com.digitInsurance.bookStoreServicesApp.model;
 
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO.RequestDTO;
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.userDTO.UserRequestDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +18,14 @@ public class Users {
     private Long id;
 
     private String username;
+
+    @JsonIgnore
     private String password;
     private String email;
 
     @Enumerated(EnumType.STRING)
+    @JsonIgnore
+
     private RoleName role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -31,5 +37,12 @@ public class Users {
         this.email = requestDTO.getEmail();
         this.password = requestDTO.getPassword();
         this.role = RoleName.valueOf(requestDTO.getRole());
+    }
+
+    public Users(UserRequestDTO userRequestDTO) {
+        this.username = userRequestDTO.getUsername();
+        this.email = userRequestDTO.getEmail();
+        this.password = userRequestDTO.getPassword();
+        this.role = RoleName.valueOf(userRequestDTO.getRole());
     }
 }

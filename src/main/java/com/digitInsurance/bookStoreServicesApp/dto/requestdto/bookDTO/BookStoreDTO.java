@@ -21,4 +21,12 @@ public class BookStoreDTO {
     @NotNull(message = "Stock is mandatory")
     @Positive(message = "Stock must be a positive number")
     private Long stock;
+
+    @NotNull(message = "Author is mandatory")
+    private String author;
+
+    @NotNull(message = "Image Path is mandatory")
+    private String image;
+
+
 }
