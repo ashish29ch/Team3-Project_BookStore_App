@@ -3,6 +3,7 @@ package com.digitInsurance.bookStoreServicesApp.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.TokenNotValidException;
 
@@ -16,7 +17,7 @@ public class JWTToken {
     private static final long EXPIRATION_TIME = 30000000L; // 8 hours 20 minutes
     private static final long NOT_BEFORE_TIME = 1000L; // 1 second
 
-    public static String getToken(String role) {
+    public static String getToken(String role, Long id) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
         Date now = new Date();
         Date expiration = new Date(now.getTime() + EXPIRATION_TIME);
@@ -25,6 +26,7 @@ public class JWTToken {
         return JWT.create()
                 .withIssuer(ISSUER)
                 .withClaim("role", role)
+                .withClaim("id",id)
                 .withIssuedAt(now)
                 .withExpiresAt(expiration)
                 .withJWTId(UUID.randomUUID().toString())
@@ -45,6 +47,21 @@ public class JWTToken {
         }
         catch (RuntimeException e){
             throw new TokenNotValidException("your fucked up with your token");
+        }
+    }
+
+
+    public static Long getUserIdFromToken(String token) throws TokenNotValidException {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer(ISSUER)
+                    .build();
+
+            DecodedJWT decodedJWT = verifier.verify(token.replace("Bearer ", ""));
+            return decodedJWT.getClaim("id").asLong();
+        } catch (JWTVerificationException e) {
+            throw new TokenNotValidException("Invalid token");
         }
     }
 }
