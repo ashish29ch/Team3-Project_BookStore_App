@@ -22,6 +22,6 @@ public class GlobalException {
 
     @ExceptionHandler(BookAlreadyExists.class)
     public ResponseEntity<?> handleBookNotFound(BookAlreadyExists e) {
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLEma).body(e.getMessage());
     }
 }
