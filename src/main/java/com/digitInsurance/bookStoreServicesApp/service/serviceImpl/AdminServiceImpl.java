@@ -29,8 +29,9 @@ public class AdminServiceImpl implements AdminService {
     public void registerAdmin(RequestDTO requestDTO) throws RoleNotValid, UsernameAlreadyExistException {
 
         Optional<Users> isAdmin = userRepository.findByEmail(requestDTO.getEmail());
+        Optional<Users> isAdminUsername = userRepository.findByUsername(requestDTO.getUsername());
 
-        if(isAdmin.isEmpty()){
+        if(isAdmin.isEmpty() && isAdminUsername.isEmpty()){
 
             String hashPassword = BCrypt.hashpw(requestDTO.getPassword(), BCrypt.gensalt());
             requestDTO.setPassword(hashPassword);
@@ -64,7 +65,7 @@ public class AdminServiceImpl implements AdminService {
             boolean checkPassword = BCrypt.checkpw(loginDTO.getPassword(), userPassword);
             String token = null;
             if(checkPassword){
-                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()));
+                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()),userFound.get().getId());
             }
             else {
                 return new ResponseEntity<>("Invalid Password", HttpStatus.UNAUTHORIZED);
