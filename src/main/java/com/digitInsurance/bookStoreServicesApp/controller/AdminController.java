@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class AdminController {
 
-    @Autowiredgit 
+    @Autowired
     private AdminService adminService;
 
     @PostMapping("/register")
