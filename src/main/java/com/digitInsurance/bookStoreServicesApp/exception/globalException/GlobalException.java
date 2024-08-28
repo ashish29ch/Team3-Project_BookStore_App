@@ -1,8 +1,6 @@
 package com.digitInsurance.bookStoreServicesApp.exception.globalException;
 
-import com.digitInsurance.bookStoreServicesApp.exception.customException.BookAlreadyExists;
-import com.digitInsurance.bookStoreServicesApp.exception.customException.BookNotFound;
-import com.digitInsurance.bookStoreServicesApp.exception.customException.TokenNotValidException;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +20,31 @@ public class GlobalException {
 
     @ExceptionHandler(BookAlreadyExists.class)
     public ResponseEntity<?> handleBookNotFound(BookAlreadyExists e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UsernameAlreadyExistException.class)
+    public ResponseEntity<?> handleUserAlreadyExist(UsernameAlreadyExistException e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(RoleNotValid.class)
+    public ResponseEntity<?> handleRoleNotFound(RoleNotValid e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFound(ResourceNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidLoginDetailsException.class)
+    public ResponseEntity<?> handleInvalidLoginDetails(InvalidLoginDetailsException e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<?> handleInsufficientStock(InsufficientStockException e) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
     }
 }
