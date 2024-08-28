@@ -78,5 +78,5 @@ public class BookStoreServiceImpl implements BookStoreService {
             throw new BookNotFound("Book does not exist");
         }
     }
-    }
+}
 
