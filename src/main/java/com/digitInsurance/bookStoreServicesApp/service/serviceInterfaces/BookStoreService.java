@@ -7,7 +7,12 @@ import com.digitInsurance.bookStoreServicesApp.exception.customException.BookAlr
 import com.digitInsurance.bookStoreServicesApp.exception.customException.BookNotFound;
 import com.digitInsurance.bookStoreServicesApp.model.BookStore;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface BookStoreService {
     public ResponseEntity<BookStore> addBook(BookStoreDTO bookStoreDTO) throws BookAlreadyExists;
@@ -15,4 +20,8 @@ public interface BookStoreService {
    public ResponseEntity<BookStore> updateBook(BookUpdateDTO bookUpdateDTO) throws BookNotFound;
 
    public ResponseEntity<?> deleteBook(@Valid DeleteBookDTO deleteBookDTO) throws BookNotFound;
+
+    public Optional<List<BookStore>> getAllBooksList();
+
+    Optional<BookStore> getBookById(Long id);
 }
