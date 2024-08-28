@@ -1,6 +1,6 @@
 package com.digitInsurance.bookStoreServicesApp.model;
 
-import com.digitInsurance.bookStoreServicesApp.dto.requestdto.BookStoreDTO;
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.bookDTO.BookStoreDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

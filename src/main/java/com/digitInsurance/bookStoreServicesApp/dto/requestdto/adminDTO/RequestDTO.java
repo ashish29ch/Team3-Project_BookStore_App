@@ -1,6 +1,5 @@
-package com.digitInsurance.bookStoreServicesApp.dto.requestdto;
+package com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO;
 
-import com.digitInsurance.bookStoreServicesApp.model.RoleName;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.stereotype.Component;
