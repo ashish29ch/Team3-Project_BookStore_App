@@ -1,4 +1,4 @@
-package com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO;
+package com.digitInsurance.bookStoreServicesApp.dto.requestdto.userDTO;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Data
-public class RequestDTO {
+public class UserRequestDTO {
 
     @NotBlank(message = "Username is mandatory")
     @Size(min = 3, max = 10, message = "Username must be between 3 and 20 characters")
