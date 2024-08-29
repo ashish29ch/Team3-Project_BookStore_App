@@ -15,8 +15,6 @@ public class CartController {
 
         @Autowired
         private CartService cartService;
-
-        // Endpoint to add an item to the cart
         @PostMapping("/add/book/{bookId}")
         public ResponseEntity<Cart> addItemToCart(
                 @RequestHeader("Authorization") String token,
@@ -26,8 +24,6 @@ public class CartController {
             Cart cart = cartService.addItemToCart(userId, bookId);
             return ResponseEntity.ok(cart);
         }
-
-        // Endpoint to get the cart details for a user
         @GetMapping
         public Cart getCartByUserId(@RequestHeader("Authorization") String token) throws TokenNotValidException, ResourceNotFoundException {
             Long userId = JWTToken.getUserIdFromToken(token);
