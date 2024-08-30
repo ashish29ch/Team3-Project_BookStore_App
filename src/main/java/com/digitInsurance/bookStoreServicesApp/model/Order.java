@@ -45,6 +45,10 @@ public class Order {
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date confirmationDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
+
     @PrePersist
     @PreUpdate
     public void calculateTotalAmount() {

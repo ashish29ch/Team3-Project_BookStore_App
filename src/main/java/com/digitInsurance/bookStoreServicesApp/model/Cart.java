@@ -22,6 +22,8 @@ public class Cart {
     private Long id;
 
     @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private Users user;
