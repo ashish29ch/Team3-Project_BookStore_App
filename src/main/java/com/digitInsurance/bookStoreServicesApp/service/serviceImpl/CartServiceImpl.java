@@ -64,14 +64,26 @@ public class CartServiceImpl implements CartService {
             cartItemRepository.save(cartItem);
             bookStoreRepository.save(book);
 
+            // Ensure the item is added to the cart's items list
+            if (!cart.getItems().contains(cartItem)) {
+                cart.getItems().add(cartItem);
+            }
+
+            // Calculate total price after all changes
             cart.calculateTotalPrice();
             cartRepository.save(cart);
+
+            // Debug statements
+            System.out.println("Cart ID: " + cart.getId());
+            System.out.println("Cart Items: " + cart.getItems().size());
+            System.out.println("Cart Total Price: " + cart.getTotalPrice());
 
             return cart;
         } else {
             throw new ResourceNotFoundException("User or Book not found");
         }
     }
+
 
     @Override
     public Cart getCartByUserId(Long userId) throws ResourceNotFoundException {
@@ -83,9 +95,6 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItemFromCart(Long userId, Long bookId) throws ResourceNotFoundException {
-
-        System.out.println("removeItemFromCart method called");
-        System.out.println(userId+" and "+bookId);
 
         Optional<Users> userOptional = usersRepository.findById(userId);
         Optional<BookStore> bookOptional = bookStoreRepository.findById(bookId);
