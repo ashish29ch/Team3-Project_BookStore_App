@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class AddressController {
     @Autowired
     private AddressService addressService;
-    @PostMapping("/add_address")
+    @PostMapping("/add/address")
     public ResponseEntity<?> addAddress(@RequestHeader("Authorization") String token,@RequestBody AddressDTO addressDTO) throws TokenNotValidException {
         Long userId = JWTToken.getUserIdFromToken(token);
         Address address = addressService.addAddress(userId, addressDTO);
