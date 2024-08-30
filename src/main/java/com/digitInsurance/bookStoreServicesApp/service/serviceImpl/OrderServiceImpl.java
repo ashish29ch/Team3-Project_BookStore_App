@@ -2,51 +2,87 @@ package com.digitInsurance.bookStoreServicesApp.service.serviceImpl;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.orderDTO.OrderItemRequest;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.orderDTO.OrderRequest;
-import com.digitInsurance.bookStoreServicesApp.model.Order;
-import com.digitInsurance.bookStoreServicesApp.model.OrderItem;
-import com.digitInsurance.bookStoreServicesApp.model.Users;
-import com.digitInsurance.bookStoreServicesApp.repo.OrderRepository;
-import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.ResourceNotFoundException;
+import com.digitInsurance.bookStoreServicesApp.model.*;
+import com.digitInsurance.bookStoreServicesApp.repo.*;
 import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.OrderService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartItemRepository cartItemRepository;
+
+    @Autowired
+    private BookStoreRepository bookStoreRepository;
+
     @Override
-    public Order placeOrder(OrderRequest orderRequest) {
-        Users user = userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+    @Transactional
+    public Order placeOrder(Long userId, OrderRequest orderRequest) throws ResourceNotFoundException {
+        Optional<Users> userOptional = userRepository.findById(userId);
 
-        Order order = new Order();
-        order.setUser(user);
-        order.setOrderDate(new Date());
-        order.setStatus("Pending");
-        order.setShippingDetails(orderRequest.getShippingDetails());
-        order.setPaymentDetails(orderRequest.getPaymentDetails());
-        order.setConfirmationNumber(UUID.randomUUID().toString());
-        order.setConfirmationDate(new Date());
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            Cart cart = cartRepository.findByUser(user)
+                    .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
-        double totalAmount = 0;
-        for (OrderItemRequest itemRequest : orderRequest.getItems()) {
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setBook(itemRequest.getBook());
-            orderItem.setQuantity(itemRequest.getQuantity());
-            orderItem.setPrice(itemRequest.getPrice());
-            totalAmount += itemRequest.getPrice() * itemRequest.getQuantity();
-            order.getItems().add(orderItem);
+            if (cart.getItems().isEmpty()) {
+                throw new ResourceNotFoundException("Cart is empty");
+            }
+
+            Order order = new Order();
+            order.setUser(user);
+            order.setOrderDate(new Date());
+            //order.setStatus("PENDING");
+            //order.setShippingDetails(orderRequest.getShippingDetails());
+            order.setPaymentDetails(orderRequest.getPaymentDetails());
+
+            List<OrderItem> orderItems = new ArrayList<>();
+
+            for (CartItem cartItem : cart.getItems()) {
+                BookStore book = cartItem.getBook();
+                OrderItem orderItem = new OrderItem(order, book, cartItem.getQuantity(), cartItem.getPrice());
+                orderItems.add(orderItem);
+            }
+
+            order.setItems(orderItems);
+            order.calculateTotalAmount();
+
+            Order newOrder = orderRepository.save(order);
+
+            // Clear the cart
+            List<CartItem> cartItems = new ArrayList<>(cart.getItems());
+            cartItemRepository.deleteAll(cartItems);
+            cart.getItems().clear();
+            cart.setTotalPrice(0.0); // Reset the total price to zero
+            cartRepository.save(cart);
+
+            return newOrder;
+        } else {
+            throw new ResourceNotFoundException("User not found");
         }
-        order.setTotalAmount(totalAmount);
+    }
 
-        return orderRepository.save(order);
+
+    @Override
+    public List<Order> getOrderHistory(Long userId) throws ResourceNotFoundException {
+        Users user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return orderRepository.findByUser(user);
     }
 }
