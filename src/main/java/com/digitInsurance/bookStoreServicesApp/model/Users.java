@@ -31,6 +31,7 @@ public class Users {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Cart cart;
 
+
     public Users(RequestDTO requestDTO){
 
         this.username = requestDTO.getUsername();
