@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/bookstore_user/admin")
+@RequestMapping("/bookstore/admin")
 @Validated
 public class AdminController {
 
