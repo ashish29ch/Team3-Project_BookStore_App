@@ -8,13 +8,14 @@ import com.digitInsurance.bookStoreServicesApp.model.Wishlist;
 import com.digitInsurance.bookStoreServicesApp.repo.BookStoreRepository;
 import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
 import com.digitInsurance.bookStoreServicesApp.repo.WishlistRepository;
+import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.WishlistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
-public class WishlistService {
+public class WishlistServiceImpl implements WishlistService {
 
     @Autowired
     private WishlistRepository wishlistRepository;
