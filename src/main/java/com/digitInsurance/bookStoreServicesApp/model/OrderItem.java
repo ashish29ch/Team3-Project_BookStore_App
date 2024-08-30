@@ -27,4 +27,11 @@ public class OrderItem {
 
     private Integer quantity;
     private Double price;
+
+    public OrderItem(Order order, BookStore book, Integer quantity, Double price) {
+        this.order = order;
+        this.book = book;
+        this.quantity = quantity;
+        this.price = price;
+    }
 }
