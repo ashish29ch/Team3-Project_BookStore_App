@@ -7,8 +7,6 @@ import com.digitInsurance.bookStoreServicesApp.exception.customException.BookAlr
 import com.digitInsurance.bookStoreServicesApp.exception.customException.BookNotFound;
 import com.digitInsurance.bookStoreServicesApp.model.BookStore;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
