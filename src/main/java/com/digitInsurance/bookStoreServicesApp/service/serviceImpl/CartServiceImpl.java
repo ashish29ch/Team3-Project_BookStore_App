@@ -73,11 +73,6 @@ public class CartServiceImpl implements CartService {
             cart.calculateTotalPrice();
             cartRepository.save(cart);
 
-            // Debug statements
-            System.out.println("Cart ID: " + cart.getId());
-            System.out.println("Cart Items: " + cart.getItems().size());
-            System.out.println("Cart Total Price: " + cart.getTotalPrice());
-
             return cart;
         } else {
             throw new ResourceNotFoundException("User or Book not found");

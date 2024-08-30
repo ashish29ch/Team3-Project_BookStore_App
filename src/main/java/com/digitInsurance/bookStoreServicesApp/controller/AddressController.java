@@ -40,7 +40,6 @@ public class AddressController {
 
         List<AddressDTO> addressDTOs = addresses.stream().map(address -> {
             AddressDTO addressDTO = new AddressDTO();
-            //addressDTO.setId(address.getId());
             addressDTO.setFullName(address.getFullName());
             addressDTO.setMobileNumber(address.getMobileNumber());
             addressDTO.setAddressLine1(address.getAddressLine1());

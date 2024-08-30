@@ -17,7 +17,7 @@ public interface BookStoreService {
 
    public ResponseEntity<BookStore> updateBook(BookUpdateDTO bookUpdateDTO) throws BookNotFound;
 
-   public ResponseEntity<?> deleteBook(@Valid DeleteBookDTO deleteBookDTO) throws BookNotFound;
+   public ResponseEntity<?> deleteBook(DeleteBookDTO deleteBookDTO) throws BookNotFound;
 
     public Optional<List<BookStore>> getAllBooksList();
 

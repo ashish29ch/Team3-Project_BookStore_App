@@ -12,7 +12,5 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order,Long> {
     List<Order> findByUser(Users user);
 
-    boolean existsByUserAndItemsBook(Users user, BookStore book);
-
     List<Order> findByUserId(Long id);
 }
