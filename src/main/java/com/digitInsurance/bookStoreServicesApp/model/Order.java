@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -34,9 +35,6 @@ public class Order {
 
 //    private String status;
 
-//    @Embedded
-//    private ShippingDetails shippingDetails;
-
     @Embedded
     private PaymentDetails paymentDetails;
 
@@ -56,4 +54,5 @@ public class Order {
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
     }
+
 }

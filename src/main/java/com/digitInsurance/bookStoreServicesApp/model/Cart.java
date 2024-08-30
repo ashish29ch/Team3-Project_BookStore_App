@@ -1,7 +1,6 @@
 package com.digitInsurance.bookStoreServicesApp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,8 +21,6 @@ public class Cart {
     private Long id;
 
     @OneToOne
-
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
     private Users user;
