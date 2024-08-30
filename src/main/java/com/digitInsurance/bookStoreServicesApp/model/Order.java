@@ -15,11 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
@@ -31,18 +32,18 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
-    private String status;
+//    private String status;
 
-    @Embedded
-    private ShippingDetails shippingDetails;
+//    @Embedded
+//    private ShippingDetails shippingDetails;
 
     @Embedded
     private PaymentDetails paymentDetails;
 
-    private String confirmationNumber;
+//    private String confirmationNumber;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date confirmationDate;
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date confirmationDate;
 
     @PrePersist
     @PreUpdate
