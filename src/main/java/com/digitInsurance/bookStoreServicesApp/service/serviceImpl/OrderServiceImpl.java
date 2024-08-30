@@ -75,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
 
             Order newOrder = orderRepository.save(order);
 
+            
             // Clear the cart
             cartItemRepository.deleteAll(cart.getItems());
             cart.getItems().clear();
