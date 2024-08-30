@@ -28,6 +28,8 @@ public class UserServiceImpl implements UserService {
         Optional<Users> isUserEmail = userRepository.findByEmail(userRequestDTO.getEmail());
         Optional<Users> isUserName = userRepository.findByUsername(userRequestDTO.getUsername());
 
+        //String role = String.valueOf(isUserName.get().getRole());
+
         if(isUserEmail.isEmpty() && isUserName.isEmpty()){
 
             String hashPassword = BCrypt.hashpw(userRequestDTO.getPassword(), BCrypt.gensalt());
