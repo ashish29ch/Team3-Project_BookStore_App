@@ -12,9 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-    private Long userId;
-    private List<OrderItemRequest> items;
-    private ShippingDetails shippingDetails;
+    //private ShippingDetails shippingDetails;
     private PaymentDetails paymentDetails;
 }
 
