@@ -10,14 +10,14 @@ import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
 import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.AdminService;
 import com.digitInsurance.bookStoreServicesApp.util.JWTToken;
 import jakarta.validation.Valid;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -27,54 +27,46 @@ public class AdminServiceImpl implements AdminService {
     public UserRepository userRepository;
 
     public void registerAdmin(RequestDTO requestDTO) throws RoleNotValid, UsernameAlreadyExistException {
-
         Optional<Users> isAdmin = userRepository.findByEmail(requestDTO.getEmail());
         Optional<Users> isAdminUsername = userRepository.findByUsername(requestDTO.getUsername());
 
-        if(isAdmin.isEmpty() && isAdminUsername.isEmpty()){
-
+        if (isAdmin.isEmpty() && isAdminUsername.isEmpty()) {
             String hashPassword = BCrypt.hashpw(requestDTO.getPassword(), BCrypt.gensalt());
             requestDTO.setPassword(hashPassword);
 
-            if(requestDTO.getRole().equalsIgnoreCase("admin")){
+            if (requestDTO.getRole().equalsIgnoreCase("admin")) {
                 requestDTO.setRole(String.valueOf(RoleName.ROLE_ADMIN));
-            }
-            else {
+            } else {
                 throw new RoleNotValid("Role Not Valid");
             }
 
             Users user = new Users(requestDTO);
-
             userRepository.save(user);
+        } else {
+            throw new UsernameAlreadyExistException("Username Already Registered");
         }
-        else {
-            throw new UsernameAlreadyExistException("Username Already Registered ");
-        }
-
     }
 
-    public ResponseEntity<String> loginAdmin(@RequestBody @Valid LoginDTO loginDTO) {
+    public ResponseEntity<Map<String, String>> loginAdmin(@RequestBody @Valid LoginDTO loginDTO) {
         try {
-            Optional<Users> userFound = userRepository.findByUsername(loginDTO.getUsername());
+            Optional<Users> userFound = userRepository.findByEmail(loginDTO.getEmail());
 
             if (userFound.isEmpty()) {
-                return new ResponseEntity<>("Admin With Username Not Found", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(Map.of("error", "Admin With Email Not Found"), HttpStatus.NOT_FOUND);
             }
 
             String userPassword = userFound.get().getPassword();
             boolean checkPassword = BCrypt.checkpw(loginDTO.getPassword(), userPassword);
-            String token = null;
-            if(checkPassword){
-                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()),userFound.get().getId());
+            if (checkPassword) {
+                String token = JWTToken.getToken(String.valueOf(userFound.get().getRole()), userFound.get().getId());
+                return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(Map.of("error", "Invalid Password"), HttpStatus.UNAUTHORIZED);
             }
-            else {
-                return new ResponseEntity<>("Invalid Password", HttpStatus.UNAUTHORIZED);
-            }
-
-            return new ResponseEntity<>(token,HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", e.getMessage()));
         }
     }
+
 
 }

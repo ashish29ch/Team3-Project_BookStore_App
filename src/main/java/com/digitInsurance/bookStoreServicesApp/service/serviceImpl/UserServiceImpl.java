@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 
     public ResponseEntity<String> loginUser(LoginDTO loginDTO) {
         try {
-            Optional<Users> userFound = userRepository.findByUsername(loginDTO.getUsername());
+            Optional<Users> userFound = userRepository.findByUsername(loginDTO.getEmail());
 
             if (userFound.isEmpty()) {
                 return new ResponseEntity<>("User With Username Not Found", HttpStatus.NOT_FOUND);
