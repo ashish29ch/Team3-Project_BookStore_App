@@ -47,4 +47,9 @@ public class GlobalException {
     public ResponseEntity<?> handleInsufficientStock(InsufficientStockException e) {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?> handleUserNotFound(UserNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
 }

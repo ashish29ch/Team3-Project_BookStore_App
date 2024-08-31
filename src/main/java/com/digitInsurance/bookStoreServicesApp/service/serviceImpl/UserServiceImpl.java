@@ -1,8 +1,10 @@
 package com.digitInsurance.bookStoreServicesApp.service.serviceImpl;
 
+import com.digitInsurance.bookStoreServicesApp.dto.requestdto.UserUpdateDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.adminDTO.LoginDTO;
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.userDTO.UserRequestDTO;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.RoleNotValid;
+import com.digitInsurance.bookStoreServicesApp.exception.customException.UserNotFoundException;
 import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
 import com.digitInsurance.bookStoreServicesApp.model.RoleName;
 import com.digitInsurance.bookStoreServicesApp.model.Users;
@@ -73,6 +75,19 @@ public class UserServiceImpl implements UserService {
             return new ResponseEntity<>(token,HttpStatus.OK);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateUser(Long userId, UserUpdateDTO userUpdateDTO) throws UserNotFoundException {
+        Optional<Users> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            Users user = userOptional.get();
+            user.setEmail(userUpdateDTO.getEmail());
+            user.setUsername(userUpdateDTO.getUsername());
+            userRepository.save(user);
+        } else {
+            throw new UserNotFoundException("User not found");
         }
     }
 }
