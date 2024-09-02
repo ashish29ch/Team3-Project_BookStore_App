@@ -30,7 +30,7 @@ public class BookStoreController {
     @PutMapping("/update/book")
     public ResponseEntity<?> updateBook(@RequestHeader("Authorization") String token,@Valid @RequestBody BookUpdateDTO bookUpdateDTO) throws TokenNotValidException, BookNotFound {
         String role=JWTToken.getRoleFromToken(token);
-        if(role.equals(String.valueOf(RoleName.ROLE_USER))){
+        if(role.equals(String.valueOf(RoleName.ROLE_ADMIN))){
             return ResponseEntity.status(HttpStatus.OK).body(bookStoreService.updateBook(bookUpdateDTO));
         }
         else{

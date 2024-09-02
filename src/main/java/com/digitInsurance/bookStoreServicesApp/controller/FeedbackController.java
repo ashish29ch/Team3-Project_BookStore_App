@@ -21,7 +21,7 @@ public class FeedbackController {
     @PostMapping
     public ResponseEntity<?> submitFeedback(@RequestHeader("Authorization") String token, @RequestBody FeedbackRequest feedbackRequest) throws TokenNotValidException, TokenNotValidException {
         Long userId = JWTToken.getUserIdFromToken(token);
-        Feedback feedback = feedbackService.submitFeedback(userId, feedbackRequest);
+        ResponseEntity<?> feedback = feedbackService.submitFeedback(userId, feedbackRequest);
         return ResponseEntity.status(201).body(feedback);
     }
 

@@ -8,10 +8,12 @@ import com.digitInsurance.bookStoreServicesApp.exception.customException.UserNot
 import com.digitInsurance.bookStoreServicesApp.exception.customException.UsernameAlreadyExistException;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 public interface UserService {
     public void registerUser(UserRequestDTO userRequestDTO) throws RoleNotValid, UsernameAlreadyExistException;
 
-    public ResponseEntity<String> loginUser(LoginDTO loginDTO);
+    public ResponseEntity<Map<String,String>> loginUser(LoginDTO loginDTO);
 
     public void updateUser(Long userId, UserUpdateDTO userUpdateDTO) throws UserNotFoundException;
 }

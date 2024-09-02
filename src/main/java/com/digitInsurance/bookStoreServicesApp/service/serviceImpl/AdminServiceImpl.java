@@ -43,7 +43,7 @@ public class AdminServiceImpl implements AdminService {
             Users user = new Users(requestDTO);
             userRepository.save(user);
         } else {
-            throw new UsernameAlreadyExistException("Username Already Registered");
+            throw new UsernameAlreadyExistException("Username or Email Already Registered");
         }
     }
 

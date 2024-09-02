@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -54,27 +55,25 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    public ResponseEntity<String> loginUser(LoginDTO loginDTO) {
+    public ResponseEntity<Map<String,String>> loginUser(LoginDTO loginDTO) {
         try {
-            Optional<Users> userFound = userRepository.findByUsername(loginDTO.getEmail());
+            Optional<Users> userFound = userRepository.findByEmail(loginDTO.getEmail());
 
             if (userFound.isEmpty()) {
-                return new ResponseEntity<>("User With Username Not Found", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(Map.of("error","User With Username Not Found"), HttpStatus.NOT_FOUND);
             }
 
             String userPassword = userFound.get().getPassword();
             boolean checkPassword = BCrypt.checkpw(loginDTO.getPassword(), userPassword);
             String token = null;
-            if(checkPassword){
-                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()),userFound.get().getId());
+            if (checkPassword) {
+                token = JWTToken.getToken(String.valueOf(userFound.get().getRole()), userFound.get().getId());
+                return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(Map.of("error", "Invalid Password"), HttpStatus.UNAUTHORIZED);
             }
-            else {
-                return new ResponseEntity<>("Invalid Password", HttpStatus.UNAUTHORIZED);
-            }
-
-            return new ResponseEntity<>(token,HttpStatus.OK);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error",e.getMessage()));
         }
     }
 

@@ -1,6 +1,7 @@
 package com.digitInsurance.bookStoreServicesApp.service.serviceImpl;
 
 import com.digitInsurance.bookStoreServicesApp.dto.requestdto.feedbackDTO.FeedbackRequest;
+import com.digitInsurance.bookStoreServicesApp.dto.responsedto.FeedbackResponseDTO;
 import com.digitInsurance.bookStoreServicesApp.model.*;
 import com.digitInsurance.bookStoreServicesApp.repo.BookStoreRepository;
 import com.digitInsurance.bookStoreServicesApp.repo.FeedbackRespository;
@@ -8,9 +9,9 @@ import com.digitInsurance.bookStoreServicesApp.repo.OrderRepository;
 import com.digitInsurance.bookStoreServicesApp.repo.UserRepository;
 import com.digitInsurance.bookStoreServicesApp.service.serviceInterfaces.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private BookStoreRepository bookStoreRepository;
 
     @Override
-    public Feedback submitFeedback(Long userId, FeedbackRequest feedbackRequest) {
+    public ResponseEntity<?> submitFeedback(Long userId, FeedbackRequest feedbackRequest) {
 
         Users user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -67,8 +68,15 @@ public class FeedbackServiceImpl implements FeedbackService {
                 feedbackRequest.getRating(),
                 feedbackRequest.getMessage()
         );
+        feedbackRespository.save(feedback);
+        FeedbackResponseDTO feedbackResponseDTO = new FeedbackResponseDTO();
+        feedbackResponseDTO.setId(feedback.getId());
+        feedbackResponseDTO.setBookId(feedback.getBook().getId());
+        feedbackResponseDTO.setUserId(feedback.getUser().getId());
+        feedbackResponseDTO.setRating(feedback.getRating());
+        feedbackResponseDTO.setMessage(feedback.getMessage());
 
-        return feedbackRespository.save(feedback);
+        return ResponseEntity.status(201).body(feedbackResponseDTO);
     }
 
     @Override
